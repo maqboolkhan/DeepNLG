@@ -29,7 +29,7 @@ import os
 from collections import Counter
 from stanfordcorenlp import StanfordCoreNLP
 
-STANFORD_PATH=r'/scratch/hpc-prf-nina/maqbool/DeepNLG/stanford-corenlp-4.2.0'
+# STANFORD_PATH=r'/scratch/hpc-prf-nina/maqbool/DeepNLG/stanford-corenlp-4.2.0'
 
 class Tree:
     def __init__(self, tree, tokens, lemmas):
@@ -366,8 +366,8 @@ class Tree:
 
 
 class TemplateExtraction:
-    def __init__(self):
-        self.corenlp = StanfordCoreNLP(STANFORD_PATH)
+    def __init__(self, stanford_path):
+        self.corenlp = StanfordCoreNLP(stanford_path)
 
 
     def close(self):
@@ -623,11 +623,11 @@ class TemplateExtraction:
 
 
 class Lexicalization(Preprocess):
-    def __init__(self, data_path, write_path):
+    def __init__(self, data_path, write_path, stanford_path):
         super().__init__(data_path=data_path, write_path=write_path)
 
         self.surfacevocab = []
-        self.extractor = TemplateExtraction()
+        self.extractor = TemplateExtraction(stanford_path)
         self.traindata, self.vocab, surface = self.load(os.path.join(data_path, 'train'))
         self.surfacevocab.extend(surface)
         self.devdata, _, surface = self.load(os.path.join(data_path, 'dev'))
@@ -721,6 +721,6 @@ if __name__ == '__main__':
     write_path = sys.argv[2]
     STANFORD_PATH=sys.argv[3]
     print('starting pre processing in lexicalization... (python)')
-    temp = Lexicalization(data_path=data_path, write_path=write_path)
+    temp = Lexicalization(data_path=data_path, write_path=write_path, stanford_path=STANFORD_PATH)
     temp()
 

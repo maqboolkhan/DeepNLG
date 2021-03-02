@@ -32,15 +32,14 @@ for task in end2end ordering structing lexicalization
     if [ "$task" = "lexicalization" ] || [ "$task" = "end2end" ];
     then
       echo ">> $task"
-      python3 $task/maqtest.py
       python3 $task/preprocess.py $corpus_dir $task_dir $stanford_path
       echo "starting pre processing_txt.sh"
-      ./scripts/preprocess_txt.sh
+      bash scripts/preprocess_txt.sh
     else
       echp "<< $task"
       python3 $task/preprocess.py $corpus_dir $task_dir
       echo "starting pre processing.sh"
-      ./scripts/preprocess.sh
+      bash scripts/preprocess.sh
     fi
     echo "Done pre preprocessing for $task"
   done
@@ -73,7 +72,7 @@ for task in end2end ordering structing lexicalization
             fi
 
             #echo "run=$run" >> scripts/tmp
-            ./scripts/$model.sh
+            bash scripts/$model.sh
           done
       done
   done
@@ -140,7 +139,7 @@ for task in ordering structing lexicalization end2end
             echo "task_dir=$task_dir" >> scripts/tmp
             echo "model=$model" >> scripts/tmp
             echo "test_prefix=$set" >> scripts/tmp
-            ./scripts/evaluate.sh
+            bash scripts/evaluate.sh
           done
       done
   done
@@ -231,7 +230,7 @@ for model in transformer rnn
         echo "model=$model" >> scripts/tmp
         echo "input=$set.$eval" >> scripts/tmp
         echo "output=$set.ordering" >> scripts/tmp
-        ./scripts/pipeline.sh
+        bash scripts/pipeline.sh
         python3 mapping.py $pipeline_dir/$set.$eval $pipeline_dir/$set.ordering.postprocessed ordering $pipeline_dir/$set.ordering.mapped
 
         # structuring
@@ -242,7 +241,7 @@ for model in transformer rnn
         echo "model=$model" >> scripts/tmp
         echo "input=$set.ordering.mapped" >> scripts/tmp
         echo "output=$set.structing" >> scripts/tmp
-        ./scripts/pipeline.sh
+        bash scripts/pipeline.sh
         python3 mapping.py $pipeline_dir/$set.$eval $pipeline_dir/$set.structing.postprocessed structing $pipeline_dir/$set.structing.mapped
 
         # lexicalization
@@ -253,7 +252,7 @@ for model in transformer rnn
         echo "model=$model" >> scripts/tmp
         echo "input=$set.structing.mapped" >> scripts/tmp
         echo "output=$set.lex" >> scripts/tmp
-        ./scripts/pipeline.sh
+        bash scripts/pipeline.sh
         python3 mapping.py $pipeline_dir/$set.ordering.mapped $pipeline_dir/$set.lex.postprocessed lexicalization $pipeline_dir/$set.lex.mapped
 
         # reg
