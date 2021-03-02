@@ -721,6 +721,6 @@ if __name__ == '__main__':
     write_path = sys.argv[2]
     STANFORD_PATH=sys.argv[3]
     print('starting pre processing in lexicalization... (python)')
-    temp = Lexicalization(data_path=data_path, write_path=write_path, stanford_path=STANFORD_PATH)
-    temp()
+    #temp = Lexicalization(data_path=data_path, write_path=write_path, stanford_path=STANFORD_PATH)
+    #temp()
 

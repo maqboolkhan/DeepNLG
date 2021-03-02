@@ -36,7 +36,7 @@ for task in end2end ordering structing lexicalization
       echo "starting pre processing_txt.sh"
       bash scripts/preprocess_txt.sh
     else
-      echp "<< $task"
+      echo "<< $task"
       python3 $task/preprocess.py $corpus_dir $task_dir
       echo "starting pre processing.sh"
       bash scripts/preprocess.sh
