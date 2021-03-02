@@ -207,10 +207,14 @@ if __name__ == '__main__':
     # write_path='/roaming/tcastrof/emnlp2019/end2end'
     # data_path = '../versions/v1.4/en'
 
+    print('starting pre processing in end2end... (python)')
+
     data_path = sys.argv[1]
     write_path = sys.argv[2]
     STANFORD_PATH=sys.argv[3]
-    print('starting pre processing in end2end... (python)')
+
+    print(data_path, '\n', write_path, '\n', STANFORD_PATH)
+
     s = End2End(data_path=data_path, write_path=write_path)
     s()
 
