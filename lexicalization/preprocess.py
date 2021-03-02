@@ -367,7 +367,9 @@ class Tree:
 
 class TemplateExtraction:
     def __init__(self, stanford_path):
+        print('[TemplateExtraction] waiting signal for corenlp')
         self.corenlp = StanfordCoreNLP(stanford_path)
+        print('[TemplateExtraction] green signal for corenlp')
 
 
     def close(self):
@@ -721,6 +723,6 @@ if __name__ == '__main__':
     write_path = sys.argv[2]
     STANFORD_PATH=sys.argv[3]
     print('starting pre processing in lexicalization... (python)')
-    #temp = Lexicalization(data_path=data_path, write_path=write_path, stanford_path=STANFORD_PATH)
-    #temp()
+    temp = Lexicalization(data_path=data_path, write_path=write_path, stanford_path=STANFORD_PATH)
+    temp()
 

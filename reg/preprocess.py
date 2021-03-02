@@ -27,15 +27,15 @@ import re
 from lexicalization.preprocess import TemplateExtraction
 from stanfordcorenlp import StanfordCoreNLP
 
-STANFORD_PATH=r'/scratch/hpc-prf-nina/maqbool/DeepNLG/stanford-corenlp-4.2.0'
-
 class REGPrec:
-    def __init__(self, data_path, write_path):
+    def __init__(self, data_path, write_path, stanford_path):
         self.data_path = data_path
         self.write_path = write_path
 
-        self.temp_extractor = TemplateExtraction()
-        self.corenlp = StanfordCoreNLP(STANFORD_PATH)
+        self.temp_extractor = TemplateExtraction(stanford_path)
+        print('[REG] waiting signal for corenlp')
+        self.corenlp = StanfordCoreNLP(stanford_path)
+        print('[REG] green signal for corenlp')
         self.traindata, self.vocab = self.process(entry_path=os.path.join(data_path, 'train'))
 
 
@@ -154,5 +154,5 @@ if __name__ == '__main__':
     write_path = sys.argv[2]
     STANFORD_PATH=sys.argv[3]
     print('starting pre processing in reg... (python)')
-    s = REGPrec(data_path=data_path, write_path=write_path)
+    s = REGPrec(data_path=data_path, write_path=write_path, stanford_path=STANFORD_PATH)
 
