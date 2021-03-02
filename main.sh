@@ -12,14 +12,17 @@ for task in end2end ordering structing lexicalization
   do
     echo "Task $task"
     task_dir=$root_dir/$task
+    echo "checking if $task directory exist in results folder.."
     if [ ! -d "$task_dir" ];
     then
       mkdir $task_dir
     fi
 
-    echo "task=$task" > scripts/tmp
-    echo "task_dir=$task_dir" >> scripts/tmp
 
+    #echo "task=$task" > scripts/tmp
+    #echo "task_dir=$task_dir" >> scripts/tmp
+
+    echo "starting pre processing for $task"
     # preprocessing
     if [ "$task" = "lexicalization" ] || [ "$task" = "end2end" ];
     then
@@ -29,26 +32,29 @@ for task in end2end ordering structing lexicalization
       python3 $task/preprocess.py $corpus_dir $task_dir
       ./scripts/preprocess.sh
     fi
+    echo "Done pre preprocessing for $task"
   done
 
 if [ ! -d "$root_dir/reg" ];
 then
   mkdir $root_dir/reg
 fi
+echo "\nStarting pre processing for REG"
 python3 reg/preprocess.py $corpus_dir $root_dir/reg $stanford_path
+echo "Done pre procssing for REG"
 
+echo  "\n\n********* Starting training using Nematus ********\n\n"
 # training the models for ordering, structing, lexicalization and end-to-end
 for task in end2end ordering structing lexicalization
   do
     echo "Task $task"
     task_dir=$root_dir/$task
 
-    echo "task=$task" > scripts/tmp
-    echo "task_dir=$task_dir" >> scripts/tmp
+    #echo "task=$task" > scripts/tmp
 
     for model in transformer rnn
       do
-        echo "model=$model" >> scripts/tmp
+        echo "Running model=$model"p
         for run in 1 2 3
           do
             if [ ! -d "$task_dir/$model/$model$run" ];
@@ -56,16 +62,17 @@ for task in end2end ordering structing lexicalization
               mkdir $task_dir/$model/$model$run
             fi
 
-            echo "run=$run" >> scripts/tmp
+            #echo "run=$run" >> scripts/tmp
             ./scripts/$model.sh
           done
       done
   done
 
+echo "Starting to train NeuralREG"
 # training NeuralREG for Referring Expression Generation
 python3 reg/neuralreg.py --dynet-gpu
 
-echo "Baselines Evaluation"
+echo "\n\n*************Starting Baselines Evaluatio\n\nn"
 root_baseline=$root_dir/baselines
 
 if [ ! -d "$root_baseline" ];
@@ -74,6 +81,7 @@ then
 fi
 
 for task in ordering structing lexicalization
+  echo "Baseline for $task"
   do
     root_task=$root_baseline/$task
     if [ ! -d "$root_task" ];
@@ -104,20 +112,17 @@ for task in ordering structing lexicalization
       done
   done
 
-echo "Models Evaluation"
+echo "\n\n********** Starting Models Evaluation *************"
 # Evaluation of the approaches for Discourse Ordering, text Structuring, Lexicalization, REG and End-to-End
 for task in ordering structing lexicalization end2end
   do
     echo "Task $task"
 
-    echo "task=$task" > scripts/tmp
-
     task_dir=$root_dir/$task
-    echo "task_dir=$task_dir" >> scripts/tmp
-
+    echo "task_dir=$task_dir" 
     for model in transformer rnn
       do
-        echo "model=$model" >> scripts/tmp
+        echo "model=$model"
         # evaluating the model
         for set in dev test
           do
@@ -130,7 +135,7 @@ for task in ordering structing lexicalization end2end
       done
   done
 
-echo "Baseline Pipeline"
+echo "\n\n********* Starting Baseline Pipeline ***********"
 root_pipeline=$root_dir/pipeline
 
 if [ ! -d "$root_pipeline" ];
@@ -159,16 +164,21 @@ for baseline in rand major
         #echo "task_dir=$task_dir" >> scripts/tmp
 
         # ordering
+	echo "Starting Ordering for $set set"
         python3 ordering/$baseline.py $pipeline_dir/$set.$eval $pipeline_dir/$set.ordering $root_dir/ordering/data/train.json
         python3 mapping.py $pipeline_dir/$set.$eval $pipeline_dir/$set.ordering ordering $pipeline_dir/$set.ordering.mapped
         # structing
+	echo "Starting Structring for $set set"
         python3 structing/$baseline.py $pipeline_dir/$set.ordering.mapped $pipeline_dir/$set.structing $root_dir/structing/data/train.json
         python3 mapping.py $pipeline_dir/$set.$eval $pipeline_dir/$set.structing structing $pipeline_dir/$set.structing.mapped
         # lexicalization
+	echo "Starting lexicalization for $set set"
         python3 lexicalization/$baseline.py $pipeline_dir/$set.structing.mapped $pipeline_dir/$set.lex $root_dir/structing/data/train.json
         # referring expression generation
+	echo "Starting REG for $set set"
         python3 reg/generate.py $pipeline_dir/$set.lex $pipeline_dir/$set.ordering.mapped $pipeline_dir/$set.reg baseline path
         # textual realization
+	echo "Starting realization for $set set"
         python3 realization.py $pipeline_dir/$set.reg $pipeline_dir/$set.realized $root_dir/lexicalization/surfacevocab.json
 
         cat $pipeline_dir/$set.realized | \
