@@ -1,3 +1,4 @@
+
 #!/usr/bin/env bash
 
 . scripts/vars
@@ -24,19 +25,20 @@ for task in end2end ordering structing lexicalization
     #echo "task=$task" > scripts/tmp
     #echo "task_dir=$task_dir" >> scripts/tmp
 
-    python3 $base_dir/tester.py
+    python3 maqtest/tester.py
 
     echo "starting pre processing for $task"
     # preprocessing
     if [ "$task" = "lexicalization" ] || [ "$task" = "end2end" ];
     then
       echo ">> $task"
-      python3 $base_dir/$task/preprocess.py $corpus_dir $task_dir $stanford_path
+      python3 $task/maqtest.py
+      python3 $task/preprocess.py $corpus_dir $task_dir $stanford_path
       echo "starting pre processing_txt.sh"
       ./scripts/preprocess_txt.sh
     else
       echp "<< $task"
-      python3 $base_dir/$task/preprocess.py $corpus_dir $task_dir
+      python3 $task/preprocess.py $corpus_dir $task_dir
       echo "starting pre processing.sh"
       ./scripts/preprocess.sh
     fi
