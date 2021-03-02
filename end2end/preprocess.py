@@ -29,14 +29,14 @@ from itertools import permutations
 from random import randint
 from stanfordcorenlp import StanfordCoreNLP
 
-STANFORD_PATH=r'/scratch/hpc-prf-nina/maqbool/DeepNLG/stanford-corenlp-4.2.0'
+# STANFORD_PATH=r'/scratch/hpc-prf-nina/maqbool/DeepNLG/stanford-corenlp-4.2.0'
 
 class End2End(Preprocess):
-    def __init__(self, data_path, write_path):
+    def __init__(self, data_path, write_path, standford_path):
         super().__init__(data_path=data_path, write_path=write_path)
 
         print("Wait for my signal")
-        self.corenlp = StanfordCoreNLP(STANFORD_PATH)
+        self.corenlp = StanfordCoreNLP(standford_path)
         print("signal is green", self.corenlp)
         self.traindata, self.vocab = self.load_simple(path=os.path.join(data_path, 'train'))#, augment=True)
         self.devdata, _ = self.load_simple(path=os.path.join(data_path, 'dev'))#, augment=False)
@@ -217,6 +217,6 @@ if __name__ == '__main__':
 
     print(data_path, '\n', write_path, '\n', STANFORD_PATH)
 
-    s = End2End(data_path=data_path, write_path=write_path)
+    s = End2End(data_path=data_path, write_path=write_path, standford_path=STANFORD_PATH)
     s()
 
