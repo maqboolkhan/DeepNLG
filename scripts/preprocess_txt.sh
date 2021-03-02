@@ -24,11 +24,14 @@ bpe_operations=20000
 bpe_threshold=50
 
 # clean empty and long sentences, and sentences with high source-target ratio (training corpus only)
+echo "starting corpus clean with mosses ...."
 $moses_scripts/training/clean-corpus-n.perl $data_dir/train $src $trg $data_dir/corpus.clean 1 80
 
 # train truecaser
+echo "starting training of true caser ...."
 $moses_scripts/recaser/train-truecaser.perl -corpus $data_dir/corpus.clean.$trg -model $data_dir/truecase-model.$trg
 
+echo "applying true caser ...."
 # apply truecaser (cleaned training corpus)
 for prefix in corpus
  do
