@@ -31,12 +31,14 @@ for task in end2end ordering structing lexicalization
     # preprocessing
     if [ "$task" = "lexicalization" ] || [ "$task" = "end2end" ];
     then
-      echo "\n\n>> $task"
+      printf "\n\n"
+      echo ">> $task"
       python3 $task/preprocess.py $corpus_dir $task_dir $stanford_path
       echo "starting pre processing_txt.sh"
       bash scripts/preprocess_txt.sh
     else
-      echo "\n\n<< $task"
+      printf "\n\n"
+      echo "<< $task"
       python3 $task/preprocess.py $corpus_dir $task_dir
       echo "starting pre processing.sh"
       bash scripts/preprocess.sh
@@ -48,11 +50,13 @@ if [ ! -d "$root_dir/reg" ];
 then
   mkdir $root_dir/reg
 fi
-echo "\nStarting pre processing for REG"
+printf "\n\n"
+echo "Starting pre processing for REG"
 python3 reg/preprocess.py $corpus_dir $root_dir/reg $stanford_path
 echo "Done pre procssing for REG"
 
-echo  "\n\n********* Starting training using Nematus ********\n\n"
+printf "\n\n"
+echo  "********* Starting training using Nematus ********\n\n"
 # training the models for ordering, structing, lexicalization and end-to-end
 for task in end2end ordering structing lexicalization
   do
@@ -81,7 +85,8 @@ echo "Starting to train NeuralREG"
 # training NeuralREG for Referring Expression Generation
 python3 reg/neuralreg.py --dynet-gpu
 
-echo "\n\n*************Starting Baselines Evaluatio\n\nn"
+printf "\n\n"
+echo "*************Starting Baselines Evaluatio\n\nn"
 root_baseline=$root_dir/baselines
 
 if [ ! -d "$root_baseline" ];
@@ -121,7 +126,8 @@ for task in ordering structing lexicalization
       done
   done
 
-echo "\n\n********** Starting Models Evaluation *************"
+printf "\n\n"
+echo "********** Starting Models Evaluation *************"
 # Evaluation of the approaches for Discourse Ordering, text Structuring, Lexicalization, REG and End-to-End
 for task in ordering structing lexicalization end2end
   do
@@ -144,7 +150,8 @@ for task in ordering structing lexicalization end2end
       done
   done
 
-echo "\n\n********* Starting Baseline Pipeline ***********"
+printf "\n\n"
+echo "********* Starting Baseline Pipeline ***********"
 root_pipeline=$root_dir/pipeline
 
 if [ ! -d "$root_pipeline" ];
