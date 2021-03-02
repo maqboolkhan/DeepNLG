@@ -153,6 +153,7 @@ if __name__ == '__main__':
 
     data_path = sys.argv[1]
     write_path = sys.argv[2]
+    print('starting pre processing in structuring... (python)')
     struct = Structing(data_path=data_path, write_path=write_path)
     struct()
 

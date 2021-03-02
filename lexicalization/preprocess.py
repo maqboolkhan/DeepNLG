@@ -720,6 +720,7 @@ if __name__ == '__main__':
     data_path = sys.argv[1]
     write_path = sys.argv[2]
     STANFORD_PATH=sys.argv[3]
+    print('starting pre processing in lexicalization... (python)')
     temp = Lexicalization(data_path=data_path, write_path=write_path)
     temp()
 
