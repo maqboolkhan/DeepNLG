@@ -7,6 +7,8 @@ then
   mkdir $root_dir
 fi
 
+base_dir=/scratch/hpc-prf-nina/maqbool/DeepNLG
+
 # preprocessing
 for task in end2end ordering structing lexicalization
   do
@@ -22,15 +24,19 @@ for task in end2end ordering structing lexicalization
     #echo "task=$task" > scripts/tmp
     #echo "task_dir=$task_dir" >> scripts/tmp
 
+    python3 $base_dir/tester.py
+
     echo "starting pre processing for $task"
     # preprocessing
     if [ "$task" = "lexicalization" ] || [ "$task" = "end2end" ];
     then
-      python3 $task/preprocess.py $corpus_dir $task_dir $stanford_path
+      echo ">> $task"
+      python3 $base_dir/$task/preprocess.py $corpus_dir $task_dir $stanford_path
       echo "starting pre processing_txt.sh"
       ./scripts/preprocess_txt.sh
     else
-      python3 $task/preprocess.py $corpus_dir $task_dir
+      echp "<< $task"
+      python3 $base_dir/$task/preprocess.py $corpus_dir $task_dir
       echo "starting pre processing.sh"
       ./scripts/preprocess.sh
     fi
