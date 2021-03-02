@@ -35,7 +35,9 @@ class End2End(Preprocess):
     def __init__(self, data_path, write_path):
         super().__init__(data_path=data_path, write_path=write_path)
 
+        print("Wait for my signal")
         self.corenlp = StanfordCoreNLP(STANFORD_PATH)
+        print("signal is green", self.corenlp)
         self.traindata, self.vocab = self.load_simple(path=os.path.join(data_path, 'train'))#, augment=True)
         self.devdata, _ = self.load_simple(path=os.path.join(data_path, 'dev'))#, augment=False)
         self.testdata, _ = self.load_simple(path=os.path.join(data_path, 'test'))#, augment=False)
