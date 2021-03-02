@@ -28,7 +28,7 @@ from superpreprocess import Preprocess
 from itertools import permutations
 from random import randint
 from stanfordcorenlp import StanfordCoreNLP
-
+import time
 # STANFORD_PATH=r'/scratch/hpc-prf-nina/maqbool/DeepNLG/stanford-corenlp-4.2.0'
 
 class End2End(Preprocess):
@@ -216,7 +216,7 @@ if __name__ == '__main__':
     STANFORD_PATH=sys.argv[3]
 
     print(data_path, '\n', write_path, '\n', STANFORD_PATH)
-
+    time.sleep(4)
     s = End2End(data_path=data_path, write_path=write_path, standford_path=STANFORD_PATH)
     s()
 
