@@ -629,7 +629,9 @@ class Lexicalization(Preprocess):
         super().__init__(data_path=data_path, write_path=write_path)
 
         self.surfacevocab = []
+        print('Waiting for template extraction...')
         self.extractor = TemplateExtraction(stanford_path)
+        print('Wait for template extraction is over!!')
         self.traindata, self.vocab, surface = self.load(os.path.join(data_path, 'train'))
         self.surfacevocab.extend(surface)
         self.devdata, _, surface = self.load(os.path.join(data_path, 'dev'))
@@ -719,10 +721,14 @@ if __name__ == '__main__':
     # data_path = '../versions/v1.4/en'
     # write_path='/roaming/tcastrof/emnlp2019/templatization'
 
+    print('starting pre processing in lexicalization... (python)')
+
     data_path = sys.argv[1]
     write_path = sys.argv[2]
     STANFORD_PATH=sys.argv[3]
-    print('starting pre processing in lexicalization... (python)')
+
+    print(data_path, '\n', write_path, '\n', STANFORD_PATH)
+
     temp = Lexicalization(data_path=data_path, write_path=write_path, stanford_path=STANFORD_PATH)
     temp()
 

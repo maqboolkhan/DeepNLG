@@ -31,12 +31,12 @@ for task in end2end ordering structing lexicalization
     # preprocessing
     if [ "$task" = "lexicalization" ] || [ "$task" = "end2end" ];
     then
-      echo ">> $task"
+      echo "\n\n>> $task"
       python3 $task/preprocess.py $corpus_dir $task_dir $stanford_path
       echo "starting pre processing_txt.sh"
       bash scripts/preprocess_txt.sh
     else
-      echo "<< $task"
+      echo "\n\n<< $task"
       python3 $task/preprocess.py $corpus_dir $task_dir
       echo "starting pre processing.sh"
       bash scripts/preprocess.sh
