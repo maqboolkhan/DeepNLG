@@ -78,7 +78,7 @@ class RandomStruct():
 
 
 if __name__ == '__main__':
-    path = '/roaming/tcastrof/emnlp2019/structing/data'
+    path = '/scratch/hpc-prf-nina/maqbool/DeepNLG/results/structing/data'
     model = RandomStruct()
 
     if len(sys.argv) > 1:

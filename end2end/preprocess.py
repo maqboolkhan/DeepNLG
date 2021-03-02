@@ -29,7 +29,7 @@ from itertools import permutations
 from random import randint
 from stanfordcorenlp import StanfordCoreNLP
 
-STANFORD_PATH=r'~/stanford/stanford-corenlp-full-2018-02-27'
+STANFORD_PATH=r'/scratch/hpc-prf-nina/maqbool/DeepNLG/stanford-corenlp-4.2.0'
 
 class End2End(Preprocess):
     def __init__(self, data_path, write_path):

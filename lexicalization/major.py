@@ -153,7 +153,7 @@ if __name__ == '__main__':
         model = MajorLexicalization(trainpath)
         model(in_path=in_path, out_path=out_path)
     else:
-        path = '/roaming/tcastrof/emnlp2019/lexicalization/data'
+        path = '/scratch/hpc-prf-nina/maqbool/DeepNLG/results/lexicalization/data'
         trainpath = os.path.join(path, 'train.json')
         model = MajorLexicalization(trainpath)
         print('Dev set:')
@@ -171,7 +171,7 @@ if __name__ == '__main__':
                         f.write(refs[i])
                     f.write('\n')
 
-        nematus = '/roaming/tcastrof/workspace/nematus/data/multi-bleu-detok.perl'
+        nematus = '/scratch/hpc-prf-nina/maqbool/DeepNLG/nematus/data/multi-bleu-detok.perl'
         command = 'perl ' + nematus + ' reference1 reference2 reference3 reference4 reference5 < predictions'
         os.system(command)
 
@@ -197,7 +197,7 @@ if __name__ == '__main__':
                         f.write(refs[i])
                     f.write('\n')
 
-        nematus = '/roaming/tcastrof/workspace/nematus/data/multi-bleu-detok.perl'
+        nematus = '/scratch/hpc-prf-nina/maqbool/DeepNLG/nematus/data/multi-bleu-detok.perl'
         command = 'perl ' + nematus + ' reference1 reference2 reference3 reference4 reference5 < predictions'
         os.system(command)
 

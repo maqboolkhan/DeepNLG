@@ -42,7 +42,7 @@ class REG():
                 'EARLY_STOP': 20
             }
 
-            path = '/roaming/tcastrof/emnlp2019/reg'
+            path = '/scratch/hpc-prf-nina/maqbool/DeepNLG/results/reg'
             self.neuralreg = NeuralREG(path=path, config=config)
             self.neuralreg.populate(model_path)
 
@@ -138,7 +138,7 @@ class REG():
 
 
 if __name__ == '__main__':
-    path = '/roaming/tcastrof/emnlp2019/lexicalization/surfacevocab.json'
+    path = '/scratch/hpc-prf-nina/maqbool/DeepNLG/results/lexicalization/surfacevocab.json'
 
     in_path = sys.argv[1]
     order_path = sys.argv[2]

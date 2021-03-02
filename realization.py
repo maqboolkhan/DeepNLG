@@ -19,7 +19,7 @@ import sys
 import json
 import operator
 
-SURFACE_PATH='/roaming/tcastrof/emnlp2019/lexicalization/surfacevocab.json'
+SURFACE_PATH='/scratch/hpc-prf-nina/maqbool/DeepNLG/results/lexicalization/surfacevocab.json'
 
 class Realization():
     def __init__(self, rule_path):

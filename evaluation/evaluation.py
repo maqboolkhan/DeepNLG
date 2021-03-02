@@ -17,7 +17,7 @@ import xml.etree.ElementTree as ET
 from xml.dom import minidom
 import utils
 
-path='/roaming/tcastrof/emnlp2019'
+path='/scratch/hpc-prf-nina/maqbool/DeepNLG/results'
 gold_path=os.path.join(path, 'end2end/data/test.json')
 
 class HumanEval:

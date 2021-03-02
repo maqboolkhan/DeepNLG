@@ -75,11 +75,11 @@ if __name__ == '__main__':
         model(in_path=in_path, out_path=out_path)
     else:
         print('Dev set:')
-        path = '/roaming/tcastrof/emnlp2019/ordering/data'
+        path = '/scratch/hpc-prf-nina/maqbool/DeepNLG/results/ordering/data'
         devdata = json.load(open(os.path.join(path, 'dev.json')))
         model.evaluate(devdata)
 
         print('Test set:')
-        path = '/roaming/tcastrof/emnlp2019/ordering/data'
+        path = '/scratch/hpc-prf-nina/maqbool/DeepNLG/results/ordering/data'
         testdata = json.load(open(os.path.join(path, 'test.json')))
         model.evaluate(testdata)

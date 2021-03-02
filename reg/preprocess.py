@@ -27,7 +27,7 @@ import re
 from lexicalization.preprocess import TemplateExtraction
 from stanfordcorenlp import StanfordCoreNLP
 
-STANFORD_PATH=r'/home/tcastrof/workspace/stanford/stanford-corenlp-full-2018-02-27'
+STANFORD_PATH=r'/scratch/hpc-prf-nina/maqbool/DeepNLG/stanford-corenlp-4.2.0'
 
 class REGPrec:
     def __init__(self, data_path, write_path):

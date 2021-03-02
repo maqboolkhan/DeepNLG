@@ -118,7 +118,7 @@ if __name__ == '__main__':
         model = MajorOrder(trainpath)
         model(in_path=in_path, out_path=out_path)
     else:
-        path = '/roaming/tcastrof/emnlp2019/ordering/data'
+        path = '/scratch/hpc-prf-nina/maqbool/DeepNLG/results/ordering/data'
         trainpath = os.path.join(path, 'train.json')
         model = MajorOrder(trainpath)
 

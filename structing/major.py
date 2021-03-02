@@ -124,7 +124,7 @@ if __name__ == '__main__':
         model = MajorStructing(trainpath)
         model(in_path=in_path, out_path=out_path)
     else:
-        path = '/roaming/tcastrof/emnlp2019/structing/data'
+        path = '/scratch/hpc-prf-nina/maqbool/DeepNLG/results/structing/data'
         trainpath = os.path.join(path, 'train.json')
         model = MajorStructing(trainpath)
         print('Dev set:')
