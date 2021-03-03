@@ -11,6 +11,7 @@ fi
 base_dir=/scratch/hpc-prf-nina/maqbool/DeepNLG
 
 # preprocessing
+start=`date +%s`
 for task in end2end ordering structing lexicalization
   do
     echo "Task $task"
@@ -54,9 +55,13 @@ printf "\n\n"
 echo "Starting pre processing for REG"
 python3 reg/preprocess.py $corpus_dir $root_dir/reg $stanford_path
 echo "Done pre procssing for REG"
+end=`date +%s`
+runtime=$((end-start))
+echo "Pre processing took $runtime"
 
 printf "\n\n"
 echo  "********* Starting training using Nematus ********\n\n"
+start=`date +%s`
 # training the models for ordering, structing, lexicalization and end-to-end
 for task in end2end ordering structing lexicalization
   do
@@ -84,9 +89,13 @@ for task in end2end ordering structing lexicalization
 echo "Starting to train NeuralREG"
 # training NeuralREG for Referring Expression Generation
 python3 reg/neuralreg.py --dynet-gpu
+end=`date +%s`
+runtime=$((end-start))
+echo "Training models took $runtime"
 
 printf "\n\n"
-echo "*************Starting Baselines Evaluatio\n\nn"
+echo "*************Starting Baselines Evaluation\n\nn"
+start=`date +%s`
 root_baseline=$root_dir/baselines
 
 if [ ! -d "$root_baseline" ];
@@ -128,6 +137,7 @@ for task in ordering structing lexicalization
 
 printf "\n\n"
 echo "********** Starting Models Evaluation *************"
+start=`date +%s`
 # Evaluation of the approaches for Discourse Ordering, text Structuring, Lexicalization, REG and End-to-End
 for task in ordering structing lexicalization end2end
   do
@@ -149,9 +159,13 @@ for task in ordering structing lexicalization end2end
           done
       done
   done
+end=`date +%s`
+runtime=$((end-start))
+echo "Models evaluation took $runtime"
 
 printf "\n\n"
 echo "********* Starting Baseline Pipeline ***********"
+start=`date +%s`
 root_pipeline=$root_dir/pipeline
 
 if [ ! -d "$root_pipeline" ];
@@ -283,3 +297,6 @@ for model in transformer rnn
         $nematus_home/data/multi-bleu-detok.perl $refs < $pipeline_dir/$set.out.postprocessed
       done
   done
+end=`date +%s`
+runtime=$((end-start))
+echo "pipe evaluation took $runtime"
