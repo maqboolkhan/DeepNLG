@@ -3,58 +3,36 @@
 
 . scripts/vars
 
-if [ ! -d "$root_dir" ];
-then
-  mkdir $root_dir
-fi
-
-base_dir=/scratch/hpc-prf-nina/maqbool/DeepNLG
-
-# preprocessing
+printf "\n\n"
+echo  "********* Starting training using Nematus ********\n\n"
 start=`date +%s`
+# training the models for ordering, structing, lexicalization and end-to-end
 for task in end2end ordering structing lexicalization
   do
     echo "Task $task"
     task_dir=$root_dir/$task
-    echo "checking if $task directory exist in results folder.."
-    if [ ! -d "$task_dir" ];
-    then
-      mkdir $task_dir
-    fi
-
 
     #echo "task=$task" > scripts/tmp
-    #echo "task_dir=$task_dir" >> scripts/tmp
 
-    python3 maqtest/tester.py
+    for model in transformer rnn
+      do
+        echo "Running model=$model"p
+        for run in 1 2 3
+          do
+            if [ ! -d "$task_dir/$model/$model$run" ];
+            then
+              mkdir $task_dir/$model/$model$run
+            fi
 
-    echo "starting pre processing for $task"
-    # preprocessing
-    if [ "$task" = "lexicalization" ] || [ "$task" = "end2end" ];
-    then
-      printf "\n\n"
-      echo ">> $task"
-      python3 $task/preprocess.py $corpus_dir $task_dir $stanford_path
-      echo "starting pre processing_txt.sh"
-      bash scripts/preprocess_txt.sh
-    else
-      printf "\n\n"
-      echo "<< $task"
-      python3 $task/preprocess.py $corpus_dir $task_dir
-      echo "starting pre processing.sh"
-      bash scripts/preprocess.sh
-    fi
-    echo "Done pre preprocessing for $task"
+            #echo "run=$run" >> scripts/tmp
+            bash scripts/$model.sh
+          done
+      done
   done
 
-if [ ! -d "$root_dir/reg" ];
-then
-  mkdir $root_dir/reg
-fi
-printf "\n\n"
-echo "Starting pre processing for REG"
-python3 reg/preprocess.py $corpus_dir $root_dir/reg $stanford_path
-echo "Done pre procssing for REG"
+echo "Starting to train NeuralREG"
+# training NeuralREG for Referring Expression Generation
+python3 reg/neuralreg.py --dynet-gpu
 end=`date +%s`
 runtime=$((end-start))
-echo "Pre processing took $runtime"
+echo "Training models took $runtime"
