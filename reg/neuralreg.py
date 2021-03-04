@@ -498,7 +498,7 @@ if __name__ == '__main__':
     #     os.rename(os.path.join(path, 'best_model.dy'), os.path.join(path, 'model'+str(i+1)+'.dy'))
 
     path = '.'
-    neuralreg = NeuralREG(path=path, config=config)
+    neuralreg = NeuralREG(path="/scratch/hpc-prf-nina/maqbool/DeepNLG/results/reg", config=config)
     neuralreg.populate(os.path.join(path, 'model1.dy'))
     neuralreg.evaluate(neuralreg.devset, os.path.join(path, 'dev.out'))
     neuralreg.evaluate(neuralreg.testset, os.path.join(path, 'test.out'))
